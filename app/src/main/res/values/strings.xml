@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">FeedAppleGame</string>
+    <string name="stage">Stage %d</string>
+    <string name="total_apple_eaten">Total apples eaten: %d</string>
+    <string name="meet_dyno_your_new_pet">Meet Dyno, your new pet!</string>
+    <string name="you_need">You need to feed him 5 apples to help him get to the next stage.</string>
+    <string name="feed_apple">Feed apple</string>
+    <string name="play_again">Play again</string>
+    <string name="congratulation">Congratulations! Dyno has grown big and strong with your help.</string>
 </resources>

@@ -3,4 +3,8 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="green_code">#58CDA2</color>
+    <color name="text_color">#313131</color>
+    <color name="sky_pink">#FFD9D9</color>
+    <color name="sky_pink_dark">#EBD9FF</color>
 </resources>
