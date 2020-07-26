@@ -47,11 +47,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun startAnimation() {
         activityMainBinding.ivDinoContainer.pivotY = activityMainBinding.ivDinoContainer.measuredHeight
-            .toFloat();
+            .toFloat()
         val scaleUp = ObjectAnimator.ofPropertyValuesHolder(
             activityMainBinding.ivDinoContainer,
-            PropertyValuesHolder.ofFloat("scaleX", 1.2f),
-            PropertyValuesHolder.ofFloat("scaleY", 1.3f)
+            PropertyValuesHolder.ofFloat("scaleX", 1.1f),
+            PropertyValuesHolder.ofFloat("scaleY", 1.1f)
         )
         val scaleDown = ObjectAnimator.ofPropertyValuesHolder(
             activityMainBinding.ivDinoContainer,
@@ -60,8 +60,8 @@ class MainActivity : AppCompatActivity() {
         )
 
         scaleUp.repeatMode = ValueAnimator.REVERSE
-        scaleUp.duration=300
-        scaleDown.duration=300
+        scaleUp.duration=500
+        scaleDown.duration=500
         scaleUp.start()
         scaleUp.addListener(object :Animator.AnimatorListener{
             override fun onAnimationRepeat(animation: Animator?) {
