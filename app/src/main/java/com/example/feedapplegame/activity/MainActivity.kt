@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnClickListeners() {
         activityMainBinding.llButtonContainer.setOnClickListener {
+            activityMainBinding.llButtonContainer.isClickable=false
             setNewData()
            startAnimation()
         }
@@ -60,8 +61,8 @@ class MainActivity : AppCompatActivity() {
         )
 
         scaleUp.repeatMode = ValueAnimator.REVERSE
-        scaleUp.duration=500
-        scaleDown.duration=500
+        scaleUp.duration=700
+        scaleDown.duration=700
         scaleUp.start()
         scaleUp.addListener(object :Animator.AnimatorListener{
             override fun onAnimationRepeat(animation: Animator?) {
@@ -76,7 +77,23 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onAnimationStart(animation: Animator?) {
+                activityMainBinding.llButtonContainer.isClickable=false
+            }
+        })
 
+        scaleDown.addListener(object :Animator.AnimatorListener{
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                activityMainBinding.llButtonContainer.isClickable=true
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+                activityMainBinding.llButtonContainer.isClickable=false
             }
         })
     }
