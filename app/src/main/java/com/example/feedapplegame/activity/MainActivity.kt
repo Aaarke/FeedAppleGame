@@ -1,5 +1,6 @@
 package com.example.feedapplegame.activity
 
+import android.animation.*
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.feedapplegame.R
 import com.example.feedapplegame.databinding.ActivityMainBinding
 import com.example.feedapplegame.model.Feed
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,10 +38,47 @@ class MainActivity : AppCompatActivity() {
     private fun setOnClickListeners() {
         activityMainBinding.llButtonContainer.setOnClickListener {
             setNewData()
+           startAnimation()
         }
         activityMainBinding.llButtonPlayContainer.setOnClickListener{
             setInitialView()
         }
+    }
+
+    private fun startAnimation() {
+        activityMainBinding.ivDinoContainer.pivotY = activityMainBinding.ivDinoContainer.measuredHeight
+            .toFloat();
+        val scaleUp = ObjectAnimator.ofPropertyValuesHolder(
+            activityMainBinding.ivDinoContainer,
+            PropertyValuesHolder.ofFloat("scaleX", 1.2f),
+            PropertyValuesHolder.ofFloat("scaleY", 1.3f)
+        )
+        val scaleDown = ObjectAnimator.ofPropertyValuesHolder(
+            activityMainBinding.ivDinoContainer,
+            PropertyValuesHolder.ofFloat("scaleX", 1.0f),
+            PropertyValuesHolder.ofFloat("scaleY", 1.0f)
+        )
+
+        scaleUp.repeatMode = ValueAnimator.REVERSE
+        scaleUp.duration=300
+        scaleDown.duration=300
+        scaleUp.start()
+        scaleUp.addListener(object :Animator.AnimatorListener{
+            override fun onAnimationRepeat(animation: Animator?) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                scaleDown.start()
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+
+            }
+        })
     }
 
     private fun setNewData() {

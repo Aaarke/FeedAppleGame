@@ -42,6 +42,7 @@
         android:id="@+id/ivDinoContainer"
         android:layout_width="264dp"
         android:layout_height="282dp"
+        android:padding="@dimen/_10dp"
         android:src="@drawable/ic_stage_one_dino"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
