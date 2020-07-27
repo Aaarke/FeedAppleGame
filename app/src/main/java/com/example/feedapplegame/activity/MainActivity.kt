@@ -1,7 +1,11 @@
 package com.example.feedapplegame.activity
 
-import android.animation.*
+import android.animation.Animator
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
+import android.animation.ValueAnimator
 import android.graphics.drawable.Drawable
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -14,11 +18,13 @@ import com.example.feedapplegame.model.Feed
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var activityMainBinding:ActivityMainBinding
-    private lateinit var  feed:Feed
+    private lateinit var activityMainBinding: ActivityMainBinding
+    private lateinit var feed: Feed
+    private  lateinit var mp: MediaPlayer
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityMainBinding = DataBindingUtil.setContentView(this@MainActivity,
+        activityMainBinding = DataBindingUtil.setContentView(
+            this@MainActivity,
             R.layout.activity_main
         )
         setInitialView()
@@ -26,29 +32,46 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setInitialView() {
-        activityMainBinding.llButtonPlayContainer.visibility=View.GONE
-        activityMainBinding.llButtonContainer.visibility=View.VISIBLE
+        activityMainBinding.llButtonPlayContainer.visibility = View.GONE
+        activityMainBinding.llButtonContainer.visibility = View.VISIBLE
         activityMainBinding.tvYouNeed.text = getString(R.string.you_need)
-        activityMainBinding.ivDinoContainer.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_stage_one_dino))
-         feed=Feed(1,0)
-        activityMainBinding.feed=feed
+        activityMainBinding.ivDinoContainer.setImageDrawable(
+            ContextCompat.getDrawable(
+                this,
+                R.drawable.ic_stage_one_dino
+            )
+        )
+        feed = Feed(1, 0)
+        activityMainBinding.feed = feed
 
     }
 
     private fun setOnClickListeners() {
         activityMainBinding.llButtonContainer.setOnClickListener {
-            activityMainBinding.llButtonContainer.isClickable=false
+            activityMainBinding.llButtonContainer.isClickable = false
+            startSoundEffect()
             setNewData()
-           startAnimation()
+            startAnimation()
         }
-        activityMainBinding.llButtonPlayContainer.setOnClickListener{
+        activityMainBinding.llButtonPlayContainer.setOnClickListener {
             setInitialView()
         }
     }
 
+    private fun startSoundEffect() {
+        mp = MediaPlayer.create(this, R.raw.music_one)
+        mp.start()
+        mp.setOnCompletionListener {
+            mp.stop()
+            mp.reset()
+
+        }
+    }
+
     private fun startAnimation() {
-        activityMainBinding.ivDinoContainer.pivotY = activityMainBinding.ivDinoContainer.measuredHeight
-            .toFloat()
+        activityMainBinding.ivDinoContainer.pivotY =
+            activityMainBinding.ivDinoContainer.measuredHeight
+                .toFloat()
         val scaleUp = ObjectAnimator.ofPropertyValuesHolder(
             activityMainBinding.ivDinoContainer,
             PropertyValuesHolder.ofFloat("scaleX", 1.1f),
@@ -61,10 +84,10 @@ class MainActivity : AppCompatActivity() {
         )
 
         scaleUp.repeatMode = ValueAnimator.REVERSE
-        scaleUp.duration=700
-        scaleDown.duration=700
+        scaleUp.duration = 700
+        scaleDown.duration = 700
         scaleUp.start()
-        scaleUp.addListener(object :Animator.AnimatorListener{
+        scaleUp.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {
 
             }
@@ -77,54 +100,54 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onAnimationStart(animation: Animator?) {
-                activityMainBinding.llButtonContainer.isClickable=false
+                activityMainBinding.llButtonContainer.isClickable = false
             }
         })
 
-        scaleDown.addListener(object :Animator.AnimatorListener{
+        scaleDown.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {
             }
 
             override fun onAnimationEnd(animation: Animator?) {
-                activityMainBinding.llButtonContainer.isClickable=true
+                activityMainBinding.llButtonContainer.isClickable = true
             }
 
             override fun onAnimationCancel(animation: Animator?) {
             }
 
             override fun onAnimationStart(animation: Animator?) {
-                activityMainBinding.llButtonContainer.isClickable=false
+                activityMainBinding.llButtonContainer.isClickable = false
             }
         })
     }
 
     private fun setNewData() {
-        val count=feed.appleCount+1
-        val stage=(count/5)+1
-        val drawable:Drawable?
-        when(stage){
-            1->{
-                drawable=ContextCompat.getDrawable(this,R.drawable.ic_stage_one_dino)
+        val count = feed.appleCount + 1
+        val stage = (count / 5) + 1
+        val drawable: Drawable?
+        when (stage) {
+            1 -> {
+                drawable = ContextCompat.getDrawable(this, R.drawable.ic_stage_one_dino)
             }
-            2->{
-                drawable=ContextCompat.getDrawable(this,R.drawable.ic_stage_two_dino)
+            2 -> {
+                drawable = ContextCompat.getDrawable(this, R.drawable.ic_stage_two_dino)
             }
-            3->{
-                drawable=ContextCompat.getDrawable(this,R.drawable.ic_stage_three_dino)
+            3 -> {
+                drawable = ContextCompat.getDrawable(this, R.drawable.ic_stage_three_dino)
             }
-            4-> {
+            4 -> {
                 drawable = ContextCompat.getDrawable(this, R.drawable.ic_stage_four_dino)
             }
-            else->{
-                drawable=ContextCompat.getDrawable(this,R.drawable.ic_stage_five_dino)
+            else -> {
+                drawable = ContextCompat.getDrawable(this, R.drawable.ic_stage_five_dino)
                 activityMainBinding.tvYouNeed.text = getString(R.string.congratulation)
-                activityMainBinding.llButtonContainer.visibility=View.GONE
-                activityMainBinding.llButtonPlayContainer.visibility=View.VISIBLE
+                activityMainBinding.llButtonContainer.visibility = View.GONE
+                activityMainBinding.llButtonPlayContainer.visibility = View.VISIBLE
             }
         }
-        val newFeed=feed.copy(stage = stage, appleCount = count)
-        feed=newFeed
-        activityMainBinding.feed=newFeed
+        val newFeed = feed.copy(stage = stage, appleCount = count)
+        feed = newFeed
+        activityMainBinding.feed = newFeed
         activityMainBinding.ivDinoContainer.setImageDrawable(drawable)
     }
 }
